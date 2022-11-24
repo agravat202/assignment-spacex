@@ -19,6 +19,14 @@ const Router = () => {
               </Suspense>
             }
           />
+          <Route
+            path="/filter/:filter"
+            element={
+              <Suspense fallback={<Loader />}>
+                <Dashboard />
+              </Suspense>
+            }
+          />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </IndexLayout>

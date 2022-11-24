@@ -9,12 +9,13 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Pagination from "@material-ui/lab/Pagination";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import moment from "moment/moment";
+import { useNavigate, useParams } from "react-router-dom";
 
 import useStyles from "./styles";
 import Loader from "../../components/Loader";
 import { Button, Chip, Grid, Menu, MenuItem } from "@material-ui/core";
 import LaunchDetail from "./launchDetail";
-import moment from "moment/moment";
 
 const columns = [
   { id: "no", label: "No:", minWidth: 50 },
@@ -56,12 +57,17 @@ function createData(
 
 const Dashboard = ({ loading, launches, getAllLaunches }) => {
   const classes = useStyles();
+  const params = useParams();
+  const navigate = useNavigate();
+
   const [page, setPage] = useState(1);
   const [rows, setRow] = useState([]);
   const [launchDialog, setLaunchDialog] = useState(false);
   const [selectedLaunch, setSelectedLaunch] = useState({});
-  const [selectedFilter, setSelectedFilter] = useState("All Launches");
+
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const selectedFilter = params.filter || "All Launches";
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -72,9 +78,9 @@ const Dashboard = ({ loading, launches, getAllLaunches }) => {
   };
 
   const handleFilterSelect = (event) => {
-    setSelectedFilter(event?.target?.innerText || "All Launches");
     setPage(1);
     setAnchorEl(null);
+    navigate(`/filter/${event?.target?.innerText}`);
   };
 
   useEffect(() => {
